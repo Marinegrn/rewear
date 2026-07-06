@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
+      - run: chmod +x node_modules/.bin/vitest
       - run: npm run build
       - run: npm test
-        continue-on-error: true
 
   backend-security:
     name: Backend - Security Audit
