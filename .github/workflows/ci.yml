@@ -9,7 +9,7 @@ on:
 jobs:
     # ========= BACKEND =========
   backend:
-    name: Backend - Build
+    name: Backend - Build & Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -22,7 +22,7 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npm run build
-      - run: npx vitest run
+      - run: npm test
 
   backend-security:
     name: Backend - Security Audit
@@ -42,7 +42,7 @@ jobs:
 
     # ========= FRONTEND =========
   frontend:
-    name: Frontend - Build
+    name: Frontend - Build & Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -55,7 +55,7 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npm run build
-      - run: npx vitest run
+      - run: npm test
 
   frontend-security:
     name: Frontend - Security Audit
