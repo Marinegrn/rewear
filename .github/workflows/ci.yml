@@ -22,7 +22,7 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npm run build
-      - run: npm test
+      - run: npx vitest run
 
   backend-security:
     name: Backend - Security Audit
@@ -55,7 +55,7 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npm run build
-      - run: npm test
+      - run: npx vitest run
 
   frontend-security:
     name: Frontend - Security Audit
