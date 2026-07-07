@@ -20,16 +20,18 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: rewear_test
+
+        # Lancement de Pg avant lancement de job
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:543
+          - 5432:5432
 
     env:
-      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/rewear_test"
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/rewear_test?schema=public"
 
     defaults:
       run:
@@ -40,8 +42,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - run: npm install
-      - run: npx prisma migrate deploy
+
+      # Générer Prisma client & déploiement des migrations
+      - name: Prisma Generate & Migrate
+        run: |
+          npx prisma generate
+          npx prisma migrate deploy
+
       - run: chmod +x node_modules/.bin/vitest
       - run: npm run build
       - run: npm test
