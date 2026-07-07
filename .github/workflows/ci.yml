@@ -11,6 +11,26 @@ jobs:
   backend:
     name: Backend - Build & Test
     runs-on: ubuntu-latest
+
+    # Services Postgre pour tests
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: rewear_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:543
+
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/rewear_test"
+
     defaults:
       run:
         working-directory: ./backend
@@ -21,6 +41,7 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
+      - run: npx prisma migrate deploy
       - run: chmod +x node_modules/.bin/vitest
       - run: npm run build
       - run: npm test
